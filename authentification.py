@@ -17,7 +17,8 @@ def check_password(username, password):
 def check_quiz_password(quiz_name,code):
     creds = read_credentials(path='quiz_auth.json')
     for i in creds:
-        if i['user'] == quiz_name:
-            if i['password'] == code:
+        if i['name'] == quiz_name:
+            if i['code'] == code:
                 return True
     return False
+
