@@ -9,10 +9,6 @@ app.secret_key = 'acwo2024'
 def first_function():
     return render_template("home.html")
 
-@app.route("/login")
-def login_function():
-    return render_template("login.html")
-
 @app.route("/quizzes")
 def second_function():
     return render_template("quiz_login.html")
@@ -24,18 +20,31 @@ def loggedin_function():
         return render_template("home.html")
     return render_template('loggedin.html', username=username)
 
-
-@app.route("/login22", methods=['POST', 'GET'])
+@app.route("/login", methods=['POST', 'GET'])
 def login():
+
     if request.method == 'POST':
         name = request.form["name"]
-        password = request.form["Password"]
+        password = str(request.form["Password"])
         if auth.check_password(name, password):
             session['username']=name
             print(session['username'])
             return redirect(url_for('loggedin_function'))
     return render_template("login.html")
 
+@app.route("/quiz_login", methods=['POST', 'GET'])
+def quiz_login():
+    if request.method == 'POST':
+        quiz_name = request.form.get("quiz_login")
+        code = str(request.form["Password"])
+        print(quiz_name,code)
+    return render_template("quiz_login.html")
+
+
+@app.route("/logout")
+def logout():
+    session.pop('username', None)
+    return redirect(url_for('first_function'))
 
 
 if __name__ == '__main__':
