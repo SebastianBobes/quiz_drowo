@@ -22,3 +22,29 @@ def check_quiz_password(quiz_name,code):
                 return True
     return False
 
+def update_score(ans_dict,submission_time,score,username,quiz_submission_time_name,quiz_score_name,ans_dict_name,total_time_name,total_time,path = "auth.json"):
+    creds = read_credentials()
+    for dict in creds:
+        if dict["user"] == username:
+            dict[quiz_score_name] = score
+            dict[quiz_submission_time_name] = submission_time
+            dict[ans_dict_name] = ans_dict
+            dict[total_time_name] = total_time
+    with open(path, 'w+') as f:
+        f.write(json.dumps(creds, indent=4))
+
+def update_starting_time(starting_time,username,starting_time_name,path = 'auth.json'):
+    creds = read_credentials()
+    for dict in creds:
+        if dict["user"] == username:
+            dict[starting_time_name] = starting_time
+    with open(path, 'w+') as f:
+        f.write(json.dumps(creds, indent=4))
+
+def read_start_time(username,time_name):
+    creds = read_credentials()
+    for dict in creds:
+        if dict["user"] == username:
+            return dict[time_name]
+
+
