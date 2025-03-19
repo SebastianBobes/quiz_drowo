@@ -149,10 +149,39 @@ def submit_introducere_function():
 
 @app.route("/loggedin")
 def loggedin_function():
+
     username = session.get('username')
     if username ==None:
         return render_template("home.html")
-    return render_template('loggedin.html', username=username)
+    username1=score_calculator.read_ranking()[0][0]
+    score1=score_calculator.read_ranking()[0][1]
+    username2=score_calculator.read_ranking()[1][0]
+    score2=score_calculator.read_ranking()[1][1]
+    username3=score_calculator.read_ranking()[2][0]
+    score3=score_calculator.read_ranking()[2][1]
+    username4=score_calculator.read_ranking()[3][0]
+    score4=score_calculator.read_ranking()[3][1]
+    username5=score_calculator.read_ranking()[4][0]
+    score5=score_calculator.read_ranking()[4][1]
+    username6=score_calculator.read_ranking()[5][0]
+    score6=score_calculator.read_ranking()[5][1]
+    username7=score_calculator.read_ranking()[6][0]
+    score7=score_calculator.read_ranking()[6][1]
+    username8=score_calculator.read_ranking()[7][0]
+    score8=score_calculator.read_ranking()[7][1]
+    username9=score_calculator.read_ranking()[8][0]
+    score9=score_calculator.read_ranking()[8][1]
+    username10=score_calculator.read_ranking()[9][0]
+    score10=score_calculator.read_ranking()[9][1]
+    username11=score_calculator.read_ranking()[10][0]
+    score11=score_calculator.read_ranking()[10][1]
+    username12=score_calculator.read_ranking()[11][0]
+    score12=score_calculator.read_ranking()[11][1]
+
+    return render_template("loggedin.html", username1=username1,score1=score1,username2=username2,score2=score2,username3=username3,score3=score3,
+                           username4=username4,score4=score4,username5=username5,score5=score5,username6=username6,score6=score6,
+                           username7=username7,score7=score7,username8=username8,score8=score8,username9=username9,score9=score9,
+                           username10=username10,score10=score10,username11=username11,score11=score11,username12=username12,score12=score12)
 
 @app.route("/login", methods=['POST', 'GET'])
 def login():
