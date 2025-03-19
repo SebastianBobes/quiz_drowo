@@ -1,3 +1,4 @@
+
 from datetime import datetime
 
 from flask import Flask, render_template, request, redirect, url_for, session
@@ -5,13 +6,45 @@ import authentification as auth
 import calculate_score
 import score_calculator
 import timer
+from score_calculator import read_ranking
 
 app = Flask(__name__)
 app.secret_key = 'acwo2024'
 
 @app.route("/")
 def first_function():
-    return render_template("home.html")
+
+    username1=score_calculator.read_ranking()[0][0]
+    score1=score_calculator.read_ranking()[0][1]
+    username2=score_calculator.read_ranking()[1][0]
+    score2=score_calculator.read_ranking()[1][1]
+    username3=score_calculator.read_ranking()[2][0]
+    score3=score_calculator.read_ranking()[2][1]
+    username4=score_calculator.read_ranking()[3][0]
+    score4=score_calculator.read_ranking()[3][1]
+    username5=score_calculator.read_ranking()[4][0]
+    score5=score_calculator.read_ranking()[4][1]
+    username6=score_calculator.read_ranking()[5][0]
+    score6=score_calculator.read_ranking()[5][1]
+    username7=score_calculator.read_ranking()[6][0]
+    score7=score_calculator.read_ranking()[6][1]
+    username8=score_calculator.read_ranking()[7][0]
+    score8=score_calculator.read_ranking()[7][1]
+    username9=score_calculator.read_ranking()[8][0]
+    score9=score_calculator.read_ranking()[8][1]
+    username10=score_calculator.read_ranking()[9][0]
+    score10=score_calculator.read_ranking()[9][1]
+    username11=score_calculator.read_ranking()[10][0]
+    score11=score_calculator.read_ranking()[10][1]
+    username12=score_calculator.read_ranking()[11][0]
+    score12=score_calculator.read_ranking()[11][1]
+
+    return render_template("home.html", username1=username1,score1=score1,username2=username2,score2=score2,username3=username3,score3=score3,
+                           username4=username4,score4=score4,username5=username5,score5=score5,username6=username6,score6=score6,
+                           username7=username7,score7=score7,username8=username8,score8=score8,username9=username9,score9=score9,
+                           username10=username10,score10=score10,username11=username11,score11=score11,username12=username12,score12=score12)
+
+
 
 @app.route("/quizzes")
 def second_function():
@@ -56,7 +89,7 @@ def submit_beta_function():
         submission_time=datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         starting_time = auth.read_start_time(username,"starting_time_betaflight")
         time = timer.calculate_time_difference(starting_time,submission_time)
-        auth.update_score(ans_dict,submission_time,score,username,"submission_time_betaflight",'score_betaflight',
+        auth.update_score(ans_dict,submission_time,score,username,"submission_time_betaflight",'score_BETAFLIGHT',
                           'ans_dict_betaflight',"total_time_betaflight", time)
         score_calculator.calculate_final_score()
         return redirect(url_for('loggedin_function'))
@@ -73,7 +106,7 @@ def submit_design_function():
         submission_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         starting_time = auth.read_start_time(username, "starting_time_design")
         time = timer.calculate_time_difference(starting_time, submission_time)
-        auth.update_score(ans_dict, submission_time, score, username, "submission_time_design", 'score_design',
+        auth.update_score(ans_dict, submission_time, score, username, "submission_time_design", 'score_DESIGN',
                           'ans_dict_design', "total_time_design", time)
         score_calculator.calculate_final_score()
         return redirect(url_for('loggedin_function'))
@@ -90,7 +123,7 @@ def submit_electronica_function():
         submission_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         starting_time = auth.read_start_time(username, "starting_time_electronica")
         time = timer.calculate_time_difference(starting_time, submission_time)
-        auth.update_score(ans_dict, submission_time, score, username, "submission_time_electronica", 'score_electronica',
+        auth.update_score(ans_dict, submission_time, score, username, "submission_time_electronica", 'score_ELECTRONICA',
                           'ans_dict_electronica', "total_time_electronica", time)
         score_calculator.calculate_final_score()
         return redirect(url_for('loggedin_function'))
@@ -107,7 +140,7 @@ def submit_introducere_function():
         submission_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         starting_time = auth.read_start_time(username, "starting_time_introducere")
         time = timer.calculate_time_difference(starting_time, submission_time)
-        auth.update_score(ans_dict, submission_time, score, username, "submission_time_introducere", 'score_introducere',
+        auth.update_score(ans_dict, submission_time, score, username, "submission_time_introducere", 'score_INTRODUCERE',
                           'ans_dict_introducere', "total_time_introducere", time)
         score_calculator.calculate_final_score()
         return redirect(url_for('loggedin_function'))
@@ -141,19 +174,55 @@ def quiz_login():
         print(quiz_name,code)
         username = session.get('username')
         print(username)
-        if auth.check_quiz_password(quiz_name, code):
-            starting_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-            if quiz_name =='INTRODUCERE':
-                quiz_starting_time_name = 'starting_time_introducere'
-            elif quiz_name=='ELECTRONICA':
-                quiz_starting_time_name = 'starting_time_electronica'
-            elif quiz_name=='DESIGN':
-                quiz_starting_time_name = 'starting_time_design'
+        if quiz_name == 'INTRODUCERE':
+            if auth.check_time(username,'starting_time_introducere'):
+                if auth.check_quiz_password(quiz_name, code):
+                    starting_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                    quiz_starting_time_name = 'starting_time_introducere'
+                    auth.update_starting_time(starting_time, username, quiz_starting_time_name)
+                    return render_template('INTRODUCERE.html')
+                else:
+                    return render_template("quiz_login.html")
             else:
-                quiz_starting_time_name = 'starting_time_betaflight'
-            auth.update_starting_time(starting_time,username,quiz_starting_time_name)
-            return render_template(f"{quiz_name}.html")
-    return render_template("quiz_login.html")
+                return render_template("quiz_login.html")
+
+        elif quiz_name=='ELECTRONICA':
+            if auth.check_time(username, 'starting_time_electronica'):
+                if auth.check_quiz_password(quiz_name, code):
+                    starting_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                    quiz_starting_time_name = 'starting_time_electronica'
+                    auth.update_starting_time(starting_time, username, quiz_starting_time_name)
+                    return render_template('ELECTRONICA.html')
+                else:
+                    return render_template("quiz_login.html")
+            else:
+                return render_template("quiz_login.html")
+
+        elif quiz_name=='DESIGN':
+            if auth.check_time(username, 'starting_time_design'):
+                if auth.check_quiz_password(quiz_name, code):
+                    starting_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                    quiz_starting_time_name = 'starting_time_design'
+                    auth.update_starting_time(starting_time, username, quiz_starting_time_name)
+                    return render_template('DESIGN.html')
+                else:
+                    return render_template("quiz_login.html")
+            else:
+                return render_template("quiz_login.html")
+        else:
+            if auth.check_time(username, 'starting_time_betaflight'):
+                if auth.check_quiz_password(quiz_name, code):
+                    starting_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                    quiz_starting_time_name = 'starting_time_betaflight'
+                    auth.update_starting_time(starting_time, username, quiz_starting_time_name)
+                    return render_template('BETAFLIGHT.html')
+                else:
+                    return render_template("quiz_login.html")
+            else:
+                return render_template("quiz_login.html")
+    else:
+        return render_template("quiz_login.html")
+
 
 
 @app.route("/logout")

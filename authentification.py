@@ -41,6 +41,15 @@ def update_starting_time(starting_time,username,starting_time_name,path = 'auth.
     with open(path, 'w+') as f:
         f.write(json.dumps(creds, indent=4))
 
+def check_time(username,quiz_name_time):
+    creds = read_credentials()
+    for dict in creds:
+        if dict["user"] == username:
+            if dict[quiz_name_time] =="":
+                return True
+            else:
+                return False
+
 def read_start_time(username,time_name):
     creds = read_credentials()
     for dict in creds:
