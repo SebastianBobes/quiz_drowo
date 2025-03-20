@@ -60,6 +60,11 @@ def read_ranking():
         string = string + f"{item[0]}: {item[1]}\n"
     return sorted_dict
 
+def read_quiz_score(username, total_time_name):
+    credentials = read_credentials()
+    for dict in credentials:
+        if dict['user'] == username:
+            return dict[total_time_name]
 
 if __name__ == '__main__':
     ranking  = read_ranking()

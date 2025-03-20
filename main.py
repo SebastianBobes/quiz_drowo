@@ -177,11 +177,23 @@ def loggedin_function():
     score11=score_calculator.read_ranking()[10][1]
     username12=score_calculator.read_ranking()[11][0]
     score12=score_calculator.read_ranking()[11][1]
+    time_introducere = score_calculator.read_quiz_score(username,'total_time_introducere')
+    time_electronica = score_calculator.read_quiz_score(username, 'total_time_electronica')
+    time_design = score_calculator.read_quiz_score(username, 'total_time_design')
+    time_beta = score_calculator.read_quiz_score(username, 'total_time_betaflight')
+    score_introducere = score_calculator.read_quiz_score(username,'score_INTRODUCERE')
+    score_electronica = score_calculator.read_quiz_score(username, 'score_ELECTRONICA')
+    score_design = score_calculator.read_quiz_score(username, 'score_DESIGN')
+    score_betaflight = score_calculator.read_quiz_score(username, 'score_BETAFLIGHT')
+
+
 
     return render_template("loggedin.html", username1=username1,score1=score1,username2=username2,score2=score2,username3=username3,score3=score3,
                            username4=username4,score4=score4,username5=username5,score5=score5,username6=username6,score6=score6,
                            username7=username7,score7=score7,username8=username8,score8=score8,username9=username9,score9=score9,
-                           username10=username10,score10=score10,username11=username11,score11=score11,username12=username12,score12=score12)
+                           username10=username10,score10=score10,username11=username11,score11=score11,username12=username12,score12=score12,
+                           total_time_introducere=time_introducere,total_time_electronica=time_electronica,total_time_design=time_design,total_time_betaflight=time_beta,
+                           score_introducere=score_introducere,score_electronica=score_electronica,score_design=score_design,score_betaflight=score_betaflight,username=username)
 
 @app.route("/login", methods=['POST', 'GET'])
 def login():
