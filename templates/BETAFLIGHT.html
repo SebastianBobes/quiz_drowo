@@ -23,7 +23,7 @@
     <div class="w-layout-blockcontainer container-5 w-container">
       <div class="row">
         <div class="body-wrap-3">
-          <h1 class="heading-43 spatiu_plus">Quiz BETAFLIGHT<br>TIMP</h1>
+          <h1 class="heading-43 spatiu_plus">Quiz BETAFLIGHT<br><span id="timer">15:00</span></h1>
           <div class="w-form">
             <form action="/submitted_beta" id="email-form" name="email-form" data-name="Email Form" method="post" data-wf-page-id="67d96876ecf125181f9d9945" data-wf-element-id="9684b98b-e322-ece2-c1dd-a2193a213470">
               <div class="w-layout-blockcontainer container-7 w-container">
@@ -92,6 +92,26 @@
   function preventBack() {window.history.forward(); }
   setTimeout("preventBack()",0);
   window.onunload = function () {null};
+</script>
+  <script>
+    let timeInMinutes = 15;
+    let timeInSeconds = timeInMinutes * 60;
+    const timerElement = document.getElementById("timer");
+
+    const updateTimer = () => {
+        let minutes = Math.floor(timeInSeconds / 60);
+        let seconds = timeInSeconds % 60;
+        // Update the timer on the page
+        timerElement.textContent = `${minutes < 10 ? '0' : ''}${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+        if (timeInSeconds > 0) {
+            timeInSeconds--;
+        } else {
+            clearInterval(timerInterval);
+            alert("Time's up!");
+        }
+    };
+
+    const timerInterval = setInterval(updateTimer, 1000);
 </script>
 </body>
 </html>
