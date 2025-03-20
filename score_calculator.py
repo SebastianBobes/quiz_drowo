@@ -66,9 +66,22 @@ def read_quiz_score(username, total_time_name):
         if dict['user'] == username:
             return dict[total_time_name]
 
+def check_if_all_submitted(submision_time_name):
+    credentials = read_credentials()
+    k=0
+    for dict in credentials:
+        if dict[submision_time_name]=='':
+            k+=1
+    if k==0:
+        return True
+    else:
+        return False
+
+
+
 if __name__ == '__main__':
-    ranking  = read_ranking()
-    print(ranking)
+    print(check_if_all_submitted('submission_time_betaflight'))
+
 
 
 

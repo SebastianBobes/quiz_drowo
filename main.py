@@ -185,6 +185,22 @@ def loggedin_function():
     score_electronica = score_calculator.read_quiz_score(username, 'score_ELECTRONICA')
     score_design = score_calculator.read_quiz_score(username, 'score_DESIGN')
     score_betaflight = score_calculator.read_quiz_score(username, 'score_BETAFLIGHT')
+    if score_calculator.check_if_all_submitted("submission_time_introducere"):
+        action1='/INTRODUCERE_RASP.html'
+    else:
+        action1='/quiz_login.html'
+    if score_calculator.check_if_all_submitted("submission_time_betaflight"):
+        action4 = '/BETAFLIGHT_RASP.html'
+    else:
+        action4 = '/quiz_login.html'
+    if score_calculator.check_if_all_submitted("submission_time_design"):
+        action3 = '/DESIGN_RASP.html'
+    else:
+        action3 = '/quiz_login.html'
+    if score_calculator.check_if_all_submitted("submission_time_electronica"):
+        action2 = '/ELECTRONICA_RASP.html'
+    else:
+        action2 = '/quiz_login.html'
 
 
 
@@ -216,7 +232,9 @@ def quiz_login():
         username = session.get('username')
         print(username)
         if quiz_name == 'INTRODUCERE':
-            if auth.check_time(username,'starting_time_introducere'):
+            if score_calculator.check_if_all_submitted("submission_time_introducere"):
+                return render_template('INTRODUCERE_RASP.html')
+            elif auth.check_time(username,'starting_time_introducere'):
                 if auth.check_quiz_password(quiz_name, code):
                     starting_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
                     quiz_starting_time_name = 'starting_time_introducere'
@@ -228,7 +246,9 @@ def quiz_login():
                 return render_template("quiz_login.html")
 
         elif quiz_name=='ELECTRONICA':
-            if auth.check_time(username, 'starting_time_electronica'):
+            if score_calculator.check_if_all_submitted("submission_time_electronica"):
+                return render_template('ELECTRONICA_RASP.html')
+            elif auth.check_time(username, 'starting_time_electronica'):
                 if auth.check_quiz_password(quiz_name, code):
                     starting_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
                     quiz_starting_time_name = 'starting_time_electronica'
@@ -240,7 +260,9 @@ def quiz_login():
                 return render_template("quiz_login.html")
 
         elif quiz_name=='DESIGN':
-            if auth.check_time(username, 'starting_time_design'):
+            if score_calculator.check_if_all_submitted("submission_time_design"):
+                return render_template('DESIGN_RASP.html')
+            elif auth.check_time(username, 'starting_time_design'):
                 if auth.check_quiz_password(quiz_name, code):
                     starting_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
                     quiz_starting_time_name = 'starting_time_design'
@@ -251,7 +273,9 @@ def quiz_login():
             else:
                 return render_template("quiz_login.html")
         else:
-            if auth.check_time(username, 'starting_time_betaflight'):
+            if score_calculator.check_if_all_submitted("submission_time_betaflight"):
+                return render_template('BETAFLIGHT_RASP.html')
+            elif auth.check_time(username, 'starting_time_betaflight'):
                 if auth.check_quiz_password(quiz_name, code):
                     starting_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
                     quiz_starting_time_name = 'starting_time_betaflight'
